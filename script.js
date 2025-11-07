@@ -1,28 +1,51 @@
 // 今日の日付を最大値として設定
 document.addEventListener('DOMContentLoaded', function() {
-    const today = new Date().toISOString().split('T')[0];
-    document.getElementById('birthdate').setAttribute('max', today);
+    const today = new Date();
+    const currentYear = today.getFullYear();
+    document.getElementById('year').setAttribute('max', currentYear);
 });
 
 // 計算ボタンのイベントリスナー
 document.getElementById('calculateBtn').addEventListener('click', calculateAge);
 
 // Enterキーでも計算できるようにする
-document.getElementById('birthdate').addEventListener('keypress', function(event) {
-    if (event.key === 'Enter') {
-        calculateAge();
-    }
+['year', 'month', 'day'].forEach(id => {
+    document.getElementById(id).addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            calculateAge();
+        }
+    });
 });
 
 function calculateAge() {
-    const birthdateInput = document.getElementById('birthdate').value;
+    const yearInput = document.getElementById('year').value;
+    const monthInput = document.getElementById('month').value;
+    const dayInput = document.getElementById('day').value;
 
-    if (!birthdateInput) {
-        alert('生年月日を入力してください');
+    // 入力チェック
+    if (!yearInput || !monthInput || !dayInput) {
+        alert('年、月、日をすべて入力してください');
         return;
     }
 
-    const birthdate = new Date(birthdateInput);
+    const year = parseInt(yearInput);
+    const month = parseInt(monthInput);
+    const day = parseInt(dayInput);
+
+    // 月の範囲チェック
+    if (month < 1 || month > 12) {
+        alert('月は1から12の間で入力してください');
+        return;
+    }
+
+    // 日の範囲チェック（その月の最大日数を考慮）
+    const maxDay = new Date(year, month, 0).getDate();
+    if (day < 1 || day > maxDay) {
+        alert(`${month}月の日は1から${maxDay}の間で入力してください`);
+        return;
+    }
+
+    const birthdate = new Date(year, month - 1, day);
     const today = new Date();
 
     // 入力された日付が未来の日付でないかチェック

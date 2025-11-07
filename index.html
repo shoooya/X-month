@@ -12,8 +12,21 @@
         <p class="description">生年月日を入力すると、今日までの年齢を計算します</p>
 
         <div class="input-section">
-            <label for="birthdate">生年月日を入力してください：</label>
-            <input type="date" id="birthdate" max="">
+            <label>生年月日を入力してください：</label>
+            <div class="date-inputs">
+                <div class="date-input-group">
+                    <input type="number" id="year" placeholder="年" min="1900" max="" inputmode="numeric">
+                    <span class="date-separator">年</span>
+                </div>
+                <div class="date-input-group">
+                    <input type="number" id="month" placeholder="月" min="1" max="12" inputmode="numeric">
+                    <span class="date-separator">月</span>
+                </div>
+                <div class="date-input-group">
+                    <input type="number" id="day" placeholder="日" min="1" max="31" inputmode="numeric">
+                    <span class="date-separator">日</span>
+                </div>
+            </div>
             <button id="calculateBtn">計算する</button>
         </div>
 
